@@ -30,3 +30,42 @@ it should use today’s date to get the month and year.
 import sys
 import calendar
 from datetime import datetime
+from datetime import date
+
+
+theValues = [x for x in input(
+    'Enter two comma seperated integers for the calendar, the month (1-12) followed by the year: ').split(',')]
+
+if(len(theValues[0]) == 0):
+    # no values given, give current date and time
+    defaultDate = date.today()
+    dateToString = defaultDate.strftime("%m-%d-%Y")
+    mydatelist = [int(x) for x in dateToString.split('-')]
+    theMonth = mydatelist[0]
+    theYear = mydatelist[2]
+    c = calendar.TextCalendar(calendar.SUNDAY)
+    finalS = c.formatmonth(theYear, theMonth)
+    print(finalS)
+    sys.exit(0)
+elif(len(theValues) < 2):  # assume the value we got was for the month
+    numVals = [int(x) for x in theValues]
+    if(numVals[0] < 1 or numVals[0] > 12):
+        print("we need values of 1-12 for the month and valid 4 digit year")
+        sys.exit(0)
+    else:
+        defaultDate = date.today()
+        dateToString = defaultDate.strftime("%m-%d-%Y")
+        mydatelist = [int(x) for x in dateToString.split('-')]
+        theYear = mydatelist[2]
+        c = calendar.TextCalendar(calendar.SUNDAY)
+        finalS = c.formatmonth(theYear, numVals[0])
+        print(finalS)
+else:
+    numVals = [int(x) for x in theValues]
+    if(numVals[0] < 1 or numVals[0] > 12):
+        print('we need values of 1-12 for the month and a valid 12 month year')
+        sys.exit(0)
+    else:
+        c = calendar.TextCalendar(calendar.SUNDAY)
+        finalS = c.formatmonth(numVals[1], numVals[0])
+        print(finalS)
