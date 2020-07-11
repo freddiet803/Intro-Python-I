@@ -33,10 +33,10 @@ from datetime import datetime
 from datetime import date
 
 
-theValues = [x for x in input(
-    'Enter two comma seperated integers for the calendar, the month (1-12) followed by the year: ').split(',')]
+'''theValues = [x for x in input(
+    'Enter two comma seperated integers for the calendar, the month (1-12) followed by the year: ').split(',')]'''
 
-if(len(theValues[0]) == 0):
+if(len(sys.argv) == 1):
     # no values given, give current date and time
     defaultDate = date.today()
     dateToString = defaultDate.strftime("%m-%d-%Y")
@@ -47,9 +47,10 @@ if(len(theValues[0]) == 0):
     finalS = c.formatmonth(theYear, theMonth)
     print(finalS)
     sys.exit(0)
-elif(len(theValues) < 2):  # assume the value we got was for the month
-    numVals = [int(x) for x in theValues]
-    if(numVals[0] < 1 or numVals[0] > 12):
+elif(len(sys.argv) < 3):  # assume the value we got was for the month
+    numVals = [x for x in sys.argv]
+    numValtoInt = int(numVals[1])
+    if(numValtoInt < 1 or numValtoInt > 12):
         print("we need values of 1-12 for the month and valid 4 digit year")
         sys.exit(0)
     else:
@@ -58,14 +59,16 @@ elif(len(theValues) < 2):  # assume the value we got was for the month
         mydatelist = [int(x) for x in dateToString.split('-')]
         theYear = mydatelist[2]
         c = calendar.TextCalendar(calendar.SUNDAY)
-        finalS = c.formatmonth(theYear, numVals[0])
+        finalS = c.formatmonth(theYear, numValtoInt)
         print(finalS)
 else:
-    numVals = [int(x) for x in theValues]
-    if(numVals[0] < 1 or numVals[0] > 12):
+    numVals = [x for x in sys.argv]
+    monthToInt = int(numVals[1])
+    yearToInt = int(numVals[2])
+    if(monthToInt < 1 or monthToInt > 12):
         print('we need values of 1-12 for the month and a valid 12 month year')
         sys.exit(0)
     else:
         c = calendar.TextCalendar(calendar.SUNDAY)
-        finalS = c.formatmonth(numVals[1], numVals[0])
+        finalS = c.formatmonth(yearToInt, monthToInt)
         print(finalS)
